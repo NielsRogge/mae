@@ -154,8 +154,16 @@ class MaskedAutoencoderViT(nn.Module):
         # add pos embed w/o cls token
         x = x + self.pos_embed[:, 1:, :]
 
+        print("Embeddings after pos embeddings:", x.shape)
+
         # masking: length -> length * mask_ratio
         x, mask, ids_restore = self.random_masking(x, mask_ratio)
+
+        print("Shape of mask:", mask.shape)
+        print("Mask:", mask)
+        print("Shape of ids_restore:", ids_restore.shape)
+
+        print("Embeddings after random masking:", x[0,:3,:3])
 
         # append cls token
         cls_token = self.cls_token + self.pos_embed[:, :1, :]
