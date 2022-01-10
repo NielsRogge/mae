@@ -190,9 +190,16 @@ class MaskedAutoencoderViT(nn.Module):
         # add pos embed
         x = x + self.decoder_pos_embed
 
+        print("Shape of decoder hidden states:", x.shape)
+        print("First values of decoder hidden states:", x[0, :3, :3])
+        
         # apply Transformer blocks
         for blk in self.decoder_blocks:
             x = blk(x)
+        
+        print("Shape of decoder hidden states after blocks:", x.shape)
+        print("First values of decoder hidden states after blocks:", x[0, :3, :3])
+        
         x = self.decoder_norm(x)
 
         # predictor projection
@@ -228,6 +235,10 @@ class MaskedAutoencoderViT(nn.Module):
         print("First values of latent:", latent[0,:3,:3])
 
         pred = self.forward_decoder(latent, ids_restore)  # [N, L, p*p*3]
+
+        print("Shape of pred:", pred.shape)
+        print("First values:", pred[0,:3,:3])
+
         loss = self.forward_loss(imgs, pred, mask)
         return loss, pred, mask
 
