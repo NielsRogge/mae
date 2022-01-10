@@ -194,7 +194,9 @@ class MaskedAutoencoderViT(nn.Module):
         print("First values of decoder hidden states:", x[0, :3, :3])
         
         # apply Transformer blocks
-        for blk in self.decoder_blocks:
+        for idx, blk in enumerate(self.decoder_blocks):
+            print("Hidden states before layer {idx}:")
+            print(x[0,:3,:3])
             x = blk(x)
         
         print("Shape of decoder hidden states after blocks:", x.shape)
